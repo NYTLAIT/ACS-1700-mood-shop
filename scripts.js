@@ -23,4 +23,5 @@ data.forEach(function (item) {
     button.dataset.id = item.name
     button.innerHTML = "Add to Cart"
     newDiv.appendChild(button)
+    button.className= 'add-to-cart'
 })

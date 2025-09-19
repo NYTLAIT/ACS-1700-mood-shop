@@ -25,3 +25,41 @@ body {
     text-decoration: none;
 }
 
+.items {
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+
+}
+
+.items div {
+    border: 1px solid #26B9CB;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.items img {
+    width: 100%;
+    height: auto;
+}
+
+.add-to-cart {
+    border: none;
+    background-color: #ff808b;
+    color: white;
+    padding: 0.4em;
+    
+    margin: 0.5rem;
+    align-self: center;
+}
+
+.item p {
+    margin: 0.5rem;
+}
+
+.item p:nth-child(2) {
+    line-height: 1;
+}
