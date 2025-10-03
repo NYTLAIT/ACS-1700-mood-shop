@@ -25,3 +25,46 @@ data.forEach(function (item) {
     newDiv.appendChild(button)
     button.className= 'add-to-cart'
 })
+
+const cart = []
+const addItemToCart = (id, price) => {
+    for (let i = 0; i < cart.length; i += 1) {
+        if (cart[i].id === id) {
+            cart[i].qty += 1
+            return
+        }
+    }
+    cart.push({ id, price, qty: 1 })
+}
+
+document.body.addEventListener('click', (e) => {
+    if (e.target.matches('.add-to-cart')) {
+        console.log(e.target)
+        addItemToCart(e.target.id, e.target.dataset.price)
+        console.log(cart)
+    }
+})
+
+/* const displayCart = () => {
+    let cartStr = ''
+    for (let i = 0; i< cart.length; i += 1 ) {
+         const item = cart[i]
+         cartStr += `<li>
+            <span>$(item.id)</span>
+            <input type="number" value="${item.id}" class="input-qty" data-id="${item.id}"
+            <span>${item.price}</span>
+            <span>${(item.price * item.qty)}.toFixed(2)}</span>
+            <button class="button-add" data-id="${item.id}">+</button>
+            <button class="button-sub" data-id="${item.id}">-</button>
+         </li>`
+    const cartItems = document.querySelector('#cart-items')
+    cartItems.innerHTML = cartStr
+    }
+}
+
+document.body.addEventListener('click', (e) => {
+    if (e.target.matches('.add-to-cart')) {
+        addItemtoCart(e.target.id, e.target.dataset.price)
+        dislplayCart()
+    }
+}) */
