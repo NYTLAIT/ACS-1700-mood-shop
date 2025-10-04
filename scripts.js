@@ -10,7 +10,6 @@ data.forEach(function (item) {
     img.height = 300
     newDiv.appendChild(img)
     console.log(img)
-    itemsContainer.appendChild(newDiv)
 
     const desc = document.createElement('p')
     desc.innerText = item.desc
@@ -26,6 +25,7 @@ data.forEach(function (item) {
     button.dataset.price = item.price
     newDiv.appendChild(button)
 
+    itemsContainer.appendChild(newDiv)
 })
 
 const cart = []
@@ -40,21 +40,47 @@ const addItemToCart = (id, price) => {
     cart.push({ id, price, qty: 1 })
 }
 
+const addToCart = id => {
+    for (let i = 0; i < cart.length; i += 1) {
+        const item = cart[i]
+        if (id === item.id) {
+            item.qty += 1
+            return
+        }
+    }
+}
+const removeFromCart = id => {
+    for (let i = 0; i <cart.length; i += 1 ) {
+        const item = cart[i]
+        if (id === item.id) {
+            item.qty -= 1
+            if (item.qty === 0) {
+                cart.splice(i, 1)
+            }
+            return
+        }
+    }
+}
+
 const displayCart = () => {
     let cartStr = ''
-    for (let i = 0; i< cart.length; i += 1 ) {
-        const item = cart[i]
-        cartStr += `<li>
-            <span>${item.id}</span>
-            <input type="number" value="${item.qty}" class="input-qty" data-id="${item.id}">
-            <span>${item.price}</span>
-            <span>${(item.price * item.qty).toFixed(2)}</span>
-            <button class="button-add" data-id="${item.id}">+</button>
-            <button class="button-sub" data-id="${item.id}">-</button>
-        </li>`
+    if (cart.length === 0) {
+        cartStr = '<li>Your cart is empty</li>'
+    } else {
+        for (let i = 0; i < cart.length; i += 1 ) {
+            const item = cart[i]
+            cartStr += `<li>
+                <span>${item.id}</span>
+                <input type="number" value="${item.qty}" class="input-qty" data-id="${item.id}">
+                <span>${item.price}</span>
+                <span>${(item.price * item.qty).toFixed(2)}</span>
+                <button class="button-add" data-id="${item.id}">+</button>
+                <button class="button-sub" data-id="${item.id}">-</button>
+            </li>`
+        }
+    }    
     const cartItems = document.querySelector('#cart-items')
     cartItems.innerHTML = cartStr
-    }
 }
 
 document.body.addEventListener('click', (e) => {
@@ -62,5 +88,14 @@ document.body.addEventListener('click', (e) => {
         addItemToCart(e.target.dataset.id, e.target.dataset.price)
         displayCart()
         console.log(cart)
+    } else if (e.target.matches('.button-add')) {
+        const name = e.target.dataset.id
+        addToCart(name)
+        displayCart()
+    } else if (e.target.matches('.button-sub')) { 
+        const name = e.target.dataset.id
+        removeFromCart(name)
+        displayCart()
     }
 })
+
