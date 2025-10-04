@@ -62,22 +62,31 @@ const removeFromCart = id => {
     }
 }
 
+const upDateCart = (id, val) => {
+    for (let i = 0; i < cart.length; i += 1) {
+        const item = cart[i]
+        if (id === item.id) {
+            item.qty = val
+            if (item.qty < 1) {
+                cart.splice(i, 1)
+            }
+            return
+        }
+    }
+}
+
 const displayCart = () => {
     let cartStr = ''
-    if (cart.length === 0) {
-        cartStr = '<li>Your cart is empty</li>'
-    } else {
-        for (let i = 0; i < cart.length; i += 1 ) {
-            const item = cart[i]
-            cartStr += `<li>
-                <span>${item.id}</span>
-                <input type="number" value="${item.qty}" class="input-qty" data-id="${item.id}">
-                <span>${item.price}</span>
-                <span>${(item.price * item.qty).toFixed(2)}</span>
-                <button class="button-add" data-id="${item.id}">+</button>
-                <button class="button-sub" data-id="${item.id}">-</button>
-            </li>`
-        }
+    for (let i = 0; i < cart.length; i += 1 ) {
+        const item = cart[i]
+        cartStr += `<li>
+            <span>${item.id}</span>
+            <input type="number" value="${item.qty}" class="input-qty" data-id="${item.id}">
+            <span>${item.price}</span>
+            <span>${(item.price * item.qty).toFixed(2)}</span>
+            <button class="button-add" data-id="${item.id}">+</button>
+            <button class="button-sub" data-id="${item.id}">-</button>
+        </li>`
     }    
     const cartItems = document.querySelector('#cart-items')
     cartItems.innerHTML = cartStr
@@ -99,3 +108,23 @@ document.body.addEventListener('click', (e) => {
     }
 })
 
+document.body.addEventListener('change', (e) => {
+    if (e.target.matches('.input-qty')) {
+        const name = e.target.dataset.id
+        const value = e.target.value
+        upDateCart(name, value)
+        displayCart()
+    }
+})
+
+document.body.addEventListener('change', (e) => {
+    if (e.target.matches('.input-qty')) {
+        if (e.key === 'Enter') {
+            const name = e.target.dataset.id
+            const value = e.target.value
+            upDateCart(name, value)
+            console.log(e)
+            displayCart()
+        }
+    }
+})
