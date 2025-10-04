@@ -61,7 +61,6 @@ const removeFromCart = id => {
         }
     }
 }
-
 const upDateCart = (id, val) => {
     for (let i = 0; i < cart.length; i += 1) {
         const item = cart[i]
@@ -73,6 +72,14 @@ const upDateCart = (id, val) => {
             return
         }
     }
+}
+const getCartTotal = () => {
+    let total = 0
+    for (let i = 0; i < cart.length; i += 1) {
+        const item = cart[i]
+        total += item.qty * item.price
+    }
+    return total.toFixed(2)
 }
 
 const displayCart = () => {
@@ -87,7 +94,11 @@ const displayCart = () => {
             <button class="button-add" data-id="${item.id}">+</button>
             <button class="button-sub" data-id="${item.id}">-</button>
         </li>`
-    }    
+    }
+    const cartTotal = getCartTotal()
+    console.log(cartTotal)
+    cartStr += `<li>Total: ${cartTotal}</li>`
+    
     const cartItems = document.querySelector('#cart-items')
     cartItems.innerHTML = cartStr
 }
@@ -128,3 +139,4 @@ document.body.addEventListener('change', (e) => {
         }
     }
 })
+
